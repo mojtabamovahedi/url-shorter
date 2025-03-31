@@ -24,3 +24,15 @@ crashlytics-build.properties
 fabric.properties
 .idea/httpRequests
 .idea/caches/build_file_checksums.ser
+
+# code
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+!.vscode/*.code-snippets
+.history/
+*.vsix
+.history
+.ionide
