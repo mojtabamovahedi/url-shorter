@@ -1,0 +1,10 @@
+server:
+  http_port: 8080
+
+db:
+  host: "localhost"
+  port: 5432
+  schema: "public"
+  database: "shorterUrl"
+  username: "shorterUser"
+  password: "shorterPass"

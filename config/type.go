@@ -6,7 +6,7 @@ type Config struct {
 }
 
 type ServerConfig struct {
-	HttpPort string `yaml:"http_port"`
+	HttpPort uint `yaml:"http_port"`
 }
 
 type DBConfig struct {
