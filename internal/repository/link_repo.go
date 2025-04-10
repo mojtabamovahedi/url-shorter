@@ -6,6 +6,7 @@ import (
 	"github.com/mojtabamovahedi/url-shorter/internal/model"
 	"github.com/mojtabamovahedi/url-shorter/internal/repository/mapper"
 	"github.com/mojtabamovahedi/url-shorter/internal/repository/types"
+	"github.com/mojtabamovahedi/url-shorter/pkg/cache"
 	"gorm.io/gorm"
 )
 
@@ -24,10 +25,16 @@ type linkRepo struct {
 	db *gorm.DB
 }
 
-func NewLinkRepo(db *gorm.DB) LinkRepo {
-	return &linkRepo{
+func NewLinkRepo(db *gorm.DB, provider cache.Provider) LinkRepo {
+	repo := &linkRepo{
 		db: db,
 	}
+
+	if provider == nil {
+		return repo
+	}
+
+	return NewUserCachedRepo(repo, provider)
 }
 
 func (l *linkRepo) Create(ctx context.Context, link model.Link) (model.LinkID, error) {

@@ -8,3 +8,10 @@ db:
   database: "shorterUrl"
   username: "shorterUser"
   password: "shorterPass"
+
+
+redis:
+  host: "localhost"
+  port: 6379
+  DB: 0
+  ttl: 1

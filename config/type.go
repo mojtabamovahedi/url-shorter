@@ -3,6 +3,7 @@ package config
 type Config struct {
 	Server ServerConfig `yaml:"server"`
 	DB     DBConfig     `yaml:"db"`
+	Redis  RedisConfig  `yaml:"redis"`
 }
 
 type ServerConfig struct {
@@ -16,4 +17,11 @@ type DBConfig struct {
 	Database string `yaml:"database"`
 	Username string `yaml:"username"`
 	Password string `yaml:"password"`
+}
+
+type RedisConfig struct {
+	Host string `yaml:"host"`
+	Port uint   `yaml:"port"`
+	DB   int    `yaml:"db"`
+	TTL  int    `yaml:"ttl"`
 }

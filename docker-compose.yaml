@@ -17,6 +17,22 @@ services:
       timeout: 5s
       retries: 3
       start_period: 10s
+  redis:
+    image: redis:latest
+    container_name: shorter-cache
+    ports:
+      - '6379:6379'
+    restart: always
+    command: >
+      --databases 1
+      --maxmemory-policy volatile-lru
+      --appendonly no
+    healthcheck:
+      test: [ "CMD", "redis-cli","ping" ]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+      start_period: 10s
 
 volumes:
   postgres_data:

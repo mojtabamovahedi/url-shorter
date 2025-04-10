@@ -1,15 +1,19 @@
 package app
 
 import (
+	"fmt"
 	"github.com/mojtabamovahedi/url-shorter/config"
 	"github.com/mojtabamovahedi/url-shorter/internal/service"
+	"github.com/mojtabamovahedi/url-shorter/pkg/cache"
 	"github.com/mojtabamovahedi/url-shorter/pkg/postgres"
 	"gorm.io/gorm"
+	"time"
 )
 
 type App struct {
 	cfg         config.Config
 	db          *gorm.DB
+	provider    cache.Provider
 	linkService service.LinkService
 }
 
@@ -17,7 +21,10 @@ func NewApp(cfg config.Config) (*App, error) {
 	a := &App{
 		cfg: cfg,
 	}
+	a.setCache()
+
 	err := a.setDB()
+
 	if err != nil {
 		return nil, err
 	}
@@ -58,6 +65,12 @@ func (app *App) setDB() error {
 	return nil
 }
 
+func (app *App) setCache() {
+	app.provider = cache.NewRedisCacheConnection(
+		fmt.Sprintf("%s:%d", app.cfg.Redis.Host, app.cfg.Redis.Port),
+		time.Duration(app.cfg.Redis.TTL)*time.Hour)
+}
+
 func (app *App) Close() {
 	if app.db != nil {
 		db, _ := app.db.DB()
@@ -67,6 +80,10 @@ func (app *App) Close() {
 
 func (app *App) DB() *gorm.DB {
 	return app.db
+}
+
+func (app *App) Provider() cache.Provider {
+	return app.provider
 }
 
 func (app *App) Config() config.Config {

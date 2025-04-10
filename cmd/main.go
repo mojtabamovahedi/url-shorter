@@ -19,9 +19,10 @@ func main() {
 	flag.Parse()
 
 	cfg := config.MustReadConfig(*cfgPath)
+
 	appContainer := app.MustNewApp(cfg)
 
-	linkRepo := repo.NewLinkRepo(appContainer.DB())
+	linkRepo := repo.NewLinkRepo(appContainer.DB(), appContainer.Provider())
 
 	linkService := service.NewLinkService(linkRepo)
 
