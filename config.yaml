@@ -2,7 +2,7 @@ server:
   http_port: 8080
 
 db:
-  host: "localhost"
+  host: "shorterDB"
   port: 5432
   schema: "public"
   database: "shorterUrl"
@@ -11,7 +11,7 @@ db:
 
 
 redis:
-  host: "localhost"
+  host: "shorter-cache"
   port: 6379
   DB: 0
   ttl: 1

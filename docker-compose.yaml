@@ -17,6 +17,7 @@ services:
       timeout: 5s
       retries: 3
       start_period: 10s
+
   redis:
     image: redis:latest
     container_name: shorter-cache
@@ -34,5 +35,17 @@ services:
       retries: 20
       start_period: 10s
 
+  app:
+    container_name: shortner-app
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    ports:
+      - "8080:8080"
+    depends_on:
+      postgres:
+        condition: service_started
+      redis:
+        condition: service_started
 volumes:
   postgres_data:

@@ -6,12 +6,15 @@ import (
 	"github.com/mojtabamovahedi/url-shorter/app"
 	"github.com/mojtabamovahedi/url-shorter/config"
 	"github.com/mojtabamovahedi/url-shorter/internal/service"
+	"log"
 )
 
 func Run(appContainer *app.App, cfg config.Config) error {
 	router := gin.Default()
 
 	router.Use(Logger(), Recovery(), Limiter())
+
+	log.Println("Successfully server started.")
 
 	registerRoutes(router, appContainer.LinkService())
 

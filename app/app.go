@@ -7,6 +7,7 @@ import (
 	"github.com/mojtabamovahedi/url-shorter/pkg/cache"
 	"github.com/mojtabamovahedi/url-shorter/pkg/postgres"
 	"gorm.io/gorm"
+	"log"
 	"time"
 )
 
@@ -34,7 +35,7 @@ func NewApp(cfg config.Config) (*App, error) {
 func MustNewApp(cfg config.Config) *App {
 	a, err := NewApp(cfg)
 	if err != nil {
-		panic(err)
+		log.Fatal(err)
 	}
 	return a
 }
@@ -61,6 +62,8 @@ func (app *App) setDB() error {
 		return err
 	}
 
+	log.Println("Successfully connected to database.")
+
 	app.db = db
 	return nil
 }
@@ -69,6 +72,7 @@ func (app *App) setCache() {
 	app.provider = cache.NewRedisCacheConnection(
 		fmt.Sprintf("%s:%d", app.cfg.Redis.Host, app.cfg.Redis.Port),
 		time.Duration(app.cfg.Redis.TTL)*time.Hour)
+	log.Println("Successfully connected to redis.")
 }
 
 func (app *App) Close() {

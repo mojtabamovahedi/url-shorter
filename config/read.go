@@ -2,6 +2,7 @@ package config
 
 import (
 	"gopkg.in/yaml.v3"
+	"log"
 	"os"
 )
 
@@ -11,6 +12,7 @@ func ReadConfig(path string) (Config, error) {
 	if err != nil {
 		return cfg, err
 	}
+	log.Println("Successfully read config.")
 
 	return cfg, yaml.Unmarshal(cfgFile, &cfg)
 }
@@ -18,7 +20,7 @@ func ReadConfig(path string) (Config, error) {
 func MustReadConfig(path string) Config {
 	cfg, err := ReadConfig(path)
 	if err != nil {
-		panic(err)
+		log.Fatal(err)
 	}
 	return cfg
 }
